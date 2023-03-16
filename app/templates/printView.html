@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>AMC ENGINEERING COLLEGE</title>
+	<link
+      href="https://unpkg.com/gridjs/dist/theme/mermaid.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://unpkg.com/gridjs/dist/gridjs.umd.js"></script>
+    <style type="text/css" media="print">
+      @media print{
+        @page {size: A4 landscape;max-height: 100%;max-width: 100%;}
+      body{
+        width: 100%;
+        height: 100%;
+        -webkit-transform:scale(.68,.68);
+        -moz-transform:scale(.58,.58);
+      }
+      }
+    </style>
+</head>
+<body>
+	<button onclick="window.print()">Click to Print</button>
+	<div id="table"></div>
+	<script>
+      new gridjs.Grid({
+        columns: [
+          { id: 'usn', name: 'USN'},
+          { id: 'name', name: 'Name' },
+          { id: 'specialization', name: 'Specialization'},
+          { id: 'semester', name: 'Semester'},
+          { id: 'yoa', name: 'Year of admission'},
+          { id: 'section',name: 'Section'},
+          { id: 'age', name: 'Age' },
+          { id: 'address', name: 'Address'},
+          { id: 'phone', name: 'Phone Number'},
+          { id: 'email', name: 'Email' }
+        ],
+        data: [
+          {% for table_data in table_query %}
+            {
+              usn: '{{ table_data.usn }}',
+              name: '{{ table_data.name }}',
+              specialization: '{{ table_data.specialization }}',
+              semester: '{{ table_data.semester }}',
+              yoa: '{{ table_data.yoa }}',
+              section: '{{ table_data.section }}',
+              age: '{{ table_data.age }}',
+              address: '{{ table_data.address }}',
+              phone: '{{ table_data.phone }}',
+              email: '{{ table_data.email }}'
+            },
+          {% endfor %}
+        ],
+        search:false,
+        sort: false,
+        pagination: false,
+      }).render(document.getElementById('table'));
+    </script>
+</body>
+</html>

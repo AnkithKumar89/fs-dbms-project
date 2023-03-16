@@ -1,0 +1,107 @@
+{% extends "base.html" %} {% block content %}
+<section>
+  <div class="filter-table-data">
+    <form method="POST">
+      <select name="filterSpec">
+        <option value="">Specialization</option>
+        {% for student_data in specialization_query %}
+        <option value="{{ student_data.specialization }}">
+          {{ student_data.specialization }}
+        </option>
+        {% endfor %}
+      </select>
+      <select name="filterSem">
+        <option value="">Semester</option>
+        {% for student_data in semester_query %}
+        <option value="{{ student_data.semester }}">
+          {{ student_data.semester }}
+        </option>
+        {% endfor %}
+      </select>
+      <select name="filterYOA">
+        <option value="">Year of Admission</option>
+        {% for student_data in yoa_query %}
+        <option value="{{ student_data.yoa }}">{{ student_data.yoa }}</option>
+        {% endfor %}
+      </select>
+      <select name="filterSec">
+        <option value="">Section</option>
+        {% for student_data in section_query %}
+        <option value="{{ student_data.section }}">
+          {{ student_data.section }}
+        </option>
+        {% endfor %}
+      </select>
+      <select name="print_data">
+        <option value="">Print</option>
+        <option value="yes">YES</option>
+        <option value="no">NO</option>
+      </select>
+      <input type="submit" name="submit" />
+      <input type="reset" name="reset" />
+    </form>
+  </div>
+  <div id="table-data"></div>
+  <script>
+    const updateUrl = (prev, query) => {
+      return (
+        prev +
+        (prev.indexOf("?") >= 0 ? "&" : "?") +
+        new URLSearchParams(query).toString()
+      );
+    };
+    new gridjs.Grid({
+      columns: [
+        { id: "usn", name: "USN" },
+        { id: "name", name: "Name" },
+        { id: "specialization", name: "Specialization" },
+        { id: "semester", name: "semester" },
+        { id: "yoa", name: "Year of admision" },
+        { id: "section", name: "Section" },
+        { id: "action", name: "Action" },
+      ],
+      server: {
+        url: "{{ url_for('data') }}",
+        then: (results) => results.data,
+        total: (results) => results.total,
+      },
+      search: {
+        enabled: true,
+        server: {
+          url: (prev, search) => {
+            return updateUrl(prev, { search });
+          },
+        },
+      },
+      sort: {
+        enabled: true,
+        multiColumn: true,
+        server: {
+          url: (prev, columns) => {
+            const columnIds = [
+              "usn",
+              "name",
+              "specialization",
+              "semester",
+              "yoa",
+              "section",
+            ];
+            const sort = columns.map(
+              (col) => (col.direction === 1 ? "+" : "-") + columnIds[col.index]
+            );
+            return updateUrl(prev, { sort });
+          },
+        },
+      },
+      pagination: {
+        enabled: true,
+        server: {
+          url: (prev, page, limit) => {
+            return updateUrl(prev, { start: page * limit, length: limit });
+          },
+        },
+      },
+    }).render(document.getElementById("table-data"));
+  </script>
+</section>
+{% endblock %}}

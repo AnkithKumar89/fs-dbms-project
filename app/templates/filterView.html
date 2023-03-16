@@ -1,0 +1,78 @@
+{% extends "base.html" %} {% block content %}
+<section>
+  <div class="filter-table-data">
+    <form method="POST">
+      <select name="filterSpec">
+        <option value="">Specialization</option>
+        {% for student_data in specialization_query %}
+        <option value="{{ student_data.specialization }}">
+          {{ student_data.specialization }}
+        </option>
+        {% endfor %}
+      </select>
+      <select name="filterSem">
+        <option value="">Semester</option>
+        {% for student_data in semester_query %}
+        <option value="{{ student_data.semester }}">
+          {{ student_data.semester }}
+        </option>
+        {% endfor %}
+      </select>
+      <select name="filterYOA">
+        <option value="">Year of Admission</option>
+        {% for student_data in yoa_query %}
+        <option value="{{ student_data.yoa }}">{{ student_data.yoa }}</option>
+        {% endfor %}
+      </select>
+      <select name="filterSec">
+        Choose the section
+        <option value="">Section</option>
+        {% for student_data in section_query %}
+        <option value="{{ student_data.section }}">
+          {{ student_data.section }}
+        </option>
+        {% endfor %}
+      </select>
+      <select name="print_data">
+        <option value="">Print</option>
+        <option value="yes">YES</option>
+        <option value="no">NO</option>
+      </select>
+      <input type="submit" name="submit" />
+      <input type="reset" name="reset" />
+    </form>
+  </div>
+  <div id="table-data"></div>
+  <script>
+    new gridjs.Grid({
+      columns: [
+        { id: "usn", name: "USN" },
+        { id: "name", name: "Name" },
+        { id: "specialization", name: "Specialization" },
+        { id: "semester", name: "semester" },
+        { id: "yoa", name: "Year of admision" },
+        { id: "section", name: "Section" },
+        { id: "action", name: "Action" },
+      ],
+      data: [
+          {% for student in table_query %}
+            {
+                usn: '{{ student.usn }}',
+                name: '{{ student.name }}',
+                specialization: '{{ student.specialization }}',
+                semester: '{{ student.semester }}',
+                yoa: '{{ student.yoa }}',
+                section: '{{ student.section }}',
+                action: gridjs.html("<form method='POST' action='{{url_for('student')}}'>"+"<button name='view' value='{{student.usn}}'>view</button>"+"</form>")
+            },
+          {% endfor %}
+        ],
+        search: {
+          enabled:true,
+        },
+        sort: true,
+        pagination: true,
+      }).render(document.getElementById('table-data'));
+  </script>
+</section>
+{% endblock %}}

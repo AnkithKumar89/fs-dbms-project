@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AMC PROJECT PAGE</title>
+    <link
+      href="https://unpkg.com/gridjs/dist/theme/mermaid.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static',filename='style.css') }}"
+    />
+    <script src="https://unpkg.com/gridjs/dist/gridjs.umd.js"></script>
+  </head>
+  <body>
+    <header class="main-header">
+      <nav class="nav">
+        <img
+          class="logo"
+          src="{{url_for('static',filename='./img/AMCEC-1536x756.png')}}"
+          alt="amcec-logo"
+          title="AMC-LOGO"
+        />
+        <ul class="nav-list">
+          <li><a href="{{url_for('home')}}">Home</a></li>
+          <li><a href="{{url_for('index')}}">Faculty</a></li>
+          <li><a href="#">Student</a></li>
+          <li><a href="#">Post</a></li>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Contact</a></li>
+          <li>
+            {% if not current_user.is_anonymous %}
+            <a href="{{ url_for('logout') }}">Logout</a>
+            {% endif %}
+          </li>
+        </ul>
+      </nav>
+    </header>
+    <main>{% block content%}{% endblock %}</main>
+    <footer></footer>
+  </body>
+</html>

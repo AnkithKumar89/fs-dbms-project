@@ -1,0 +1,59 @@
+{% extends "base.html" %} {% block content %}
+<section>
+  <div id="table-data"></div>
+  <script type="module">
+    const tableDiv = document.getElementById("table-data");
+
+    const updateUrl = (prev, query) => {
+      return (
+        prev +
+        (prev.indexOf("?") >= 0 ? "&" : "?") +
+        new URLSearchParams(query).toString()
+      );
+    };
+
+    const editableCellAttributes = (data, row, col) => {
+      if (row) {
+        return {
+          contentEditable: "true",
+          "data-element-id": row.cells[0].data,
+        };
+      } else {
+        return {};
+      }
+    };
+
+    new gridjs.Grid({
+      columns: [
+        { name: "USN", attributes: editableCellAttributes },
+        { name: "NAME", attributes: editableCellAttributes },
+        { name: "SPECIALIZATION", attributes: editableCellAttributes },
+        { name: "SEMESTER", attributes: editableCellAttributes },
+        { name: "YEAR OF ADMISSION", attributes: editableCellAttributes },
+        { name: "SECTION", attributes: editableCellAttributes },
+        { name: "EMAIL", attributes: editableCellAttributes },
+        { name: "PHONE", attributes: editableCellAttributes },
+        { name: "AGE", attributes: editableCellAttributes },
+        { name: "ADDRESS", attributes: editableCellAttributes },
+      ],
+      data: [
+        [
+          "{{ student_data.usn}}",
+          "{{ student_data.name }}",
+          "{{student_data.specialization}}",
+          "{{student_data.semester}}",
+          "{{ student_data.yoa }}",
+          "{{ student_data.section }}",
+          "{{ student_data.email }}",
+          "{{ student_data.phone }}",
+          "{{ student_data.age }}",
+          "{{ student_data.address }}",
+        ],
+      ],
+      search: false,
+      sort: false,
+      pagination: false,
+    }).render(document.getElementById("table-data"));
+  </script>
+</section>
+{% endblock %}
