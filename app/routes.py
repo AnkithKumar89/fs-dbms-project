@@ -1,14 +1,61 @@
+import os
+import csv
+import shutil
 from flask import render_template,redirect,flash,url_for,request
-from app import app 
-from app.forms import LoginForm
+from app import app
 from flask_login import login_required
 from app.models import Students
 from flask_login import current_user,login_user
 from werkzeug.urls  import url_parse
 from app import db
-from app.forms import RegistrationForm
+from app.forms import RegistrationForm,UploadFile,LoginForm
 from app.models import Faculty
 from flask_login import logout_user
+from werkzeug.utils import secure_filename
+
+
+@app.route('/uploadfile')
+@login_required
+def uploadfile():
+	if request.method == 'POST':
+		form = UploadFile()
+		if form.validate_on_submit():
+			file=form.upload_file.data
+			file_name=secure_filename(file.filename)
+			if file is None:
+				flash("No file selected")
+				return redirect(uploadfile)
+			else:
+				directory = os.path.join(app.config['FILE_LOCATION'])
+				csv_dir = os.path.join(directory, 'csv_files')
+				os.makedirs(csv_dir, exist_ok=True)
+				file.save(os.path.join(csv_dir, file_name))
+				for filename in os.listdir(csv_dir):
+					if filename.endswith('.csv'):
+						filepath = os.path.join(csv_dir, filename)
+						with open(filepath) as file:
+							reader = csv.DictReader(file)
+							for row in reader:
+								data = Students(
+        			            usn=row['usn'],
+        			            name=row['name'],
+        			            age=row['age'],
+        			            address=row['address'],
+        			            phone=row['phone'],
+        			            email=row['email'],
+        			            yoa =row['yoa'], 
+        			            specialization = row['specialization'],
+        			            semester = row['semester'],
+        			            section=row['section'],
+        			            )
+							db.session.add(data)
+							db.session.commit()
+							os.makedirs(os.path.join(directory, 'processed_csv_files'), exist_ok=True)
+							shutil.move(filepath, os.path.join(directory, 'processed_csv_files', filename))
+							flash(f'Data has been imported successfully from {filename}. CSV files moved to processed_csv_files directory.')
+							return redirect(url_for('index'))
+	return render_template('uploadfile.html',title='Upload File',form=form)
+
 
 @app.route('/student',methods=('GET','POST'))
 @login_required

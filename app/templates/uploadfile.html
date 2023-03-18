@@ -1,0 +1,14 @@
+{% extends "base.html" %} {% block content %}
+<section>
+  <form method="post" novalidate autocomplete="off">
+    {{ form.hidden_tag() }}
+    <p>
+      {{ form.upload_file.label }} {{ form.upload_file }} {% for error in
+      form.username.errors %}
+      <span style="color: red">[{{ error }}]</span>
+      {% endfor %}
+    </p>
+    <p>{{ form.submit() }}</p>
+  </form>
+</section>
+{% endblock %}

@@ -1,8 +1,9 @@
 import email
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField,FileField
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
 from app.models import Faculty
+from flask_wtf.file import FileField,FileRequired,FileAllowed
 
 
 class LoginForm(FlaskForm):
@@ -26,3 +27,7 @@ class RegistrationForm(FlaskForm):
 		faculty_user = Faculty.query.filter_by(email=email.data).first()
 		if faculty_user is not None:
 			raise ValidationError('Please use a different email address.')
+
+class UploadFile(FlaskForm):
+    upload_file= FileField('upload_file',validators=[FileRequired(),FileAllowed(['csv,xlsx'],"Only client secret json file!")])
+    submit=SubmitField('submit')
