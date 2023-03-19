@@ -1,6 +1,4 @@
-# amc-dbms-project
-
-# Title: Faculty Student Database Management System with Cloud Integration and Automated Data Extraction
+# Faculty Student Database Management System with Cloud Integration and Automated Data Extraction
 
 ## Description
 The Faculty Student Database Management System is a software application designed to manage student data for various departments within a university. The system includes cloud integration, which allows for locally maintained data to be transferred to a cloud database for web serving. The web server allows teachers to access student data online.
