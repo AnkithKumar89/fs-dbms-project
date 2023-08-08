@@ -4,7 +4,7 @@
     {{ form.hidden_tag() }}
     <p>
       {{ form.upload_file.label }} {{ form.upload_file }} {% for error in
-      form.username.errors %}
+      form.upload_file.errors %}
       <span style="color: red">[{{ error }}]</span>
       {% endfor %}
     </p>

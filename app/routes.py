@@ -14,11 +14,11 @@ from flask_login import logout_user
 from werkzeug.utils import secure_filename
 
 
-@app.route('/uploadfile')
+@app.route('/uploadfile',methods=['GET','POST'])
 @login_required
 def uploadfile():
+	form = UploadFile()
 	if request.method == 'POST':
-		form = UploadFile()
 		if form.validate_on_submit():
 			file=form.upload_file.data
 			file_name=secure_filename(file.filename)

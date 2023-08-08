@@ -1,11 +1,21 @@
 {% extends "base.html"%} {% block content %}
-  <div class="home">
-    <h1 class="title">AMC ENGINEERING COLLEGE</h1>
-    <p>
-      Lorem ipsum, dolor sit amet consectetur adipisicing elit. Minus eveniet
-      animi exercitationem voluptas expedita maiores sapiente quisquam tempora
-      ex voluptate, ducimus natus soluta ipsum pariatur aliquam ipsam
-      consequatur quidem et!
-    </p>
-  </div>
+    <div class="container-fluid py-5">
+        <div class="container py-5">
+            <div class="row align-items-center">
+                <div class="col-lg-5">
+                    <img class="img-fluid rounded mb-4 mb-lg-0" src="{{url_for('static',filename='./img/coltassist-logos.jpeg')}}" alt="logo">
+                </div>
+                <div class="col-lg-7">
+                    <div class="text-left mb-4">
+                      <h1 class="m-0"><span class="text-primary">COLT</span>ASSIST</h1>
+                        <h3>Innovative Way To Learn</h3>
+                    </div>
+                    <p>We the COLT ASSIST PVT LTD provide Pre-placement Training which is an important phase for any student's life. We work to ensure that the 
+                        training process is a successful one for the students of our organization and we also concentrate on Internships and On-demand courses 
+                        which makes the students excel in their career. </p>
+                    <a href="about.html" class="btn btn-primary py-md-2 px-md-4 font-weight-semi-bold mt-2">Learn More</a>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
