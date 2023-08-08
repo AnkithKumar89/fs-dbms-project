@@ -2,7 +2,7 @@
 
 ## Description
 
-The Student Database Management System is a software application designed to manage student data for various departments within a university. The system includes cloud integration, which allows for locally maintained data to be transferred to a cloud database for web serving. The web server allows teachers to access student data online.
+The Student Database Management System is a software application designed to manage student data for various departments. The system includes cloud integration, which allows for locally maintained data to be transferred to a cloud database for web serving. The web server allows teachers to access student data online.
 
 One of the key features of the system is its ability to automate the process of extracting data from multiple CSV files, and uploading it to the cloud for web serving. This automation saves time and reduces the risk of errors that could occur during manual data extraction and uploading.
 
