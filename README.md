@@ -1,4 +1,4 @@
-# Faculty Student Database Management System with Cloud Integration and Automated Data Extraction
+# Student Database Management System with Cloud Integration and Automated Data Extraction
 
 ## Description
 
