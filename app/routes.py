@@ -18,42 +18,43 @@ from werkzeug.utils import secure_filename
 @login_required
 def uploadfile():
 	form = UploadFile()
-	if request.method == 'POST':
-		if form.validate_on_submit():
-			file=form.upload_file.data
-			file_name=secure_filename(file.filename)
-			if file is None:
-				flash("No file selected")
-				return redirect(uploadfile)
-			else:
-				directory = os.path.join(app.config['FILE_LOCATION'])
-				csv_dir = os.path.join(directory, 'csv_files')
-				os.makedirs(csv_dir, exist_ok=True)
-				file.save(os.path.join(csv_dir, file_name))
-				for filename in os.listdir(csv_dir):
-					if filename.endswith('.csv'):
-						filepath = os.path.join(csv_dir, filename)
-						with open(filepath) as file:
-							reader = csv.DictReader(file)
-							for row in reader:
-								data = Students(
-        			            usn=row['usn'],
-        			            name=row['name'],
-        			            age=row['age'],
-        			            address=row['address'],
-        			            phone=row['phone'],
-        			            email=row['email'],
-        			            yoa =row['yoa'], 
-        			            specialization = row['specialization'],
-        			            semester = row['semester'],
-        			            section=row['section'],
-        			            )
-							db.session.add(data)
-							db.session.commit()
-							os.makedirs(os.path.join(directory, 'processed_csv_files'), exist_ok=True)
-							shutil.move(filepath, os.path.join(directory, 'processed_csv_files', filename))
-							flash(f'Data has been imported successfully from {filename}. CSV files moved to processed_csv_files directory.')
-							return redirect(url_for('index'))
+	if form.validate_on_submit():
+		print(1)
+		file=form.upload_file.data
+		file_name=secure_filename(file.filename)
+		if file is None:
+			flash("No file selected")
+			return redirect(uploadfile)
+		else:
+			print(2)
+			directory = os.path.join(app.config['FILE_LOCATION'])
+			csv_dir = os.path.join(directory, 'csv_files')
+			os.makedirs(csv_dir, exist_ok=True)
+			file.save(os.path.join(csv_dir, file_name))
+			for filename in os.listdir(csv_dir):
+				if filename.endswith('.csv'):
+					filepath = os.path.join(csv_dir, filename)
+					with open(filepath) as file:
+						reader = csv.DictReader(file)
+						for row in reader:
+							data = Students(
+       			            usn=row['usn'],
+       			            name=row['name'],
+       			            age=row['age'],
+       			            address=row['address'],
+       			            phone=row['phone'],
+       			            email=row['email'],
+       			            yoa =row['yoa'], 
+       			            specialization = row['specialization'],
+       			            semester = row['semester'],
+       			            section=row['section'],
+       			            )
+						db.session.add(data)
+						db.session.commit()
+						os.makedirs(os.path.join(directory, 'processed_csv_files'), exist_ok=True)
+						shutil.move(filepath, os.path.join(directory, 'processed_csv_files', filename))
+						flash(f'Data has been imported successfully from {filename}. CSV files moved to processed_csv_files directory.')
+						return redirect(url_for('index'))
 	return render_template('uploadfile.html',title='Upload File',form=form)
 
 

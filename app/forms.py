@@ -29,5 +29,5 @@ class RegistrationForm(FlaskForm):
 			raise ValidationError('Please use a different email address.')
 
 class UploadFile(FlaskForm):
-    upload_file= FileField('upload_file',validators=[FileRequired(),FileAllowed(['csv,xlsx'],"Only client secret json file!")])
+    upload_file= FileField('upload_file',validators=[FileRequired(),FileAllowed(['csv,xlsx'])])
     submit=SubmitField('submit')
